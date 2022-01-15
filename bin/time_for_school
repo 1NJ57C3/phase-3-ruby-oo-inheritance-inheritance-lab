@@ -1,3 +1,5 @@
+require 'pry'
+
 #!/usr/bin/env ruby
 
 require_relative "../lib/user"
@@ -12,9 +14,28 @@ avi = Teacher.new
 avi.first_name = "Avi"
 avi.last_name = "Flombaum"
 
+# jim = User.new # Instead of adding a new student (we're lazy), let's just enroll Jim!
+jim = Student.new
+jim.first_name = "Jim"
+jim.last_name = "Halpert"
 
 some_knowledge = avi.teach 
+some_more_important_knowledge = avi.teach
+
+a_few_things = []
+until a_few_things.length == 3 do
+    a_few_things << avi.teach
+    a_few_things = a_few_things.uniq
+end
 
 steve.learn(some_knowledge)
+steve.learn(some_more_important_knowledge)
 
-puts "Steve just learned this important knowledge: '#{steve.knowledge.first}' from Avi"
+puts "Steve just learned this important knowledge: '#{steve.knowledge.first}' and '#{steve.knowledge.last}' from Avi."
+
+jim.learn(a_few_things)
+# jim.learn(some_knowledge) # used this line to test visual formatting below.
+jim.knowledge.flatten!
+
+# Ease of readability sucks due to multiple .join, but it works and formats knowledge correctly regardless of length! :shrug::smiley:
+puts "During his audit, Jim assumed the role of student and learned the following concepts from Avi: '#{[jim.knowledge[0..-3].join("', '"),jim.knowledge.slice(-2,2).join("', and '")].join('\', \'')}.' Needless to say, he was very impressed."
